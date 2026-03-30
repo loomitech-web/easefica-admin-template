@@ -1,14 +1,12 @@
 import axios from 'axios';
-import Vue from 'vue';
 
-let headers = Vue.prototype.$authLock.headers();
+/** OData service root; axios joins request paths to this base. */
+export const ODATA_BASE_URL = 'https://odata.easefica.co.za/easefica/default/';
 
-console.log(headers);
-
-const instance = axios.create({
-  baseURL: 'https://odatav2.easefica.co.za/easefica/',
-  timeout: 5000,
-  headers: headers
-});
-
-export default instance;
+export function createOdataClient(headers) {
+  return axios.create({
+    baseURL: ODATA_BASE_URL,
+    timeout: 5000,
+    headers: headers || {}
+  });
+}

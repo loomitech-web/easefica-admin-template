@@ -57,7 +57,7 @@ export default new Vuex.Store({
     },
     async getUser (context, payload) {
       context.commit('loading', true);
-      let result = await client.get('https://odata.easefica.co.za/easefica/default/Users(' + payload.id + ')');
+      let result = await client.get('Users(' + payload.id + ')');
       context.commit('loading', false);
       if(result.data.value && result.data.value.length) {
         let user = result.data.value[0];
@@ -70,7 +70,7 @@ export default new Vuex.Store({
     async getUsers (context, payload) {
       if(payload.id) {
         context.commit('loading', true);
-        client.get('https://odata.easefica.co.za/easefica/default/Users?$filter=aiId eq \'' + payload.id + '\'').then((result)=>{
+        client.get('Users?$filter=aiId eq \'' + payload.id + '\'').then((result)=>{
           result.data.value && context.commit('users', result.data.value);  
         }).finally(()=>{
           context.commit('loading', false);
@@ -79,7 +79,7 @@ export default new Vuex.Store({
     },
     getInstitutionTypes(context, payload) {
       context.commit('loading', true);
-      client.get('https://odata.easefica.co.za/easefica/default/InstitutionTypes').then((result)=>{
+      client.get('InstitutionTypes').then((result)=>{
         result.data.value && (result.data.value = result.data.value.map((v) => v.institution));
         result.data.value && context.commit('institutionTypes', result.data.value);  
       }).finally(()=>{
@@ -89,7 +89,7 @@ export default new Vuex.Store({
     getAI(context, payload) {
       if(payload.id) {
         context.commit('loading', true);
-        client.get('https://odata.easefica.co.za/easefica/default/AccountableInstitution(' + payload.id + ')' ).then((result)=>{
+        client.get('AccountableInstitution(' + payload.id + ')').then((result)=>{
           result.data.value && result.data.value[0] && context.commit('ai', result.data.value[0]);  
         }).finally(()=>{
           context.commit('loading', false);

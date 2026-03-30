@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Auth0Lock from 'auth0-lock';
-import store from '../store';        
-import axios from 'axios';
+import store from '../store';
+import { createOdataClient } from '../store/client';
 
 let wm = new WeakMap();
 let privateStore = {};
@@ -57,11 +57,7 @@ class AuthLockService {
         if(!this.client) {
             let headers = this.headers();
     
-            this.client = axios.create({
-                baseURL: 'https://odata.easefica.co.za/easefica/',
-                timeout: 5000,
-                headers: headers
-            });
+            this.client = createOdataClient(headers);
     
             await store.commit('client', { client : this.client });
             await store.dispatch('getUser', { id : this.getProfile().name });
